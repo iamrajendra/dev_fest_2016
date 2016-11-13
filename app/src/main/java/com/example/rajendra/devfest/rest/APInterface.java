@@ -1,5 +1,6 @@
 package com.example.rajendra.devfest.rest;
 
+import com.example.rajendra.devfest.model.BreakFastMenu;
 import com.example.rajendra.devfest.model.Movie;
 
 import retrofit2.Call;
@@ -13,5 +14,8 @@ import retrofit2.http.Query;
 public interface APInterface {
 @GET("/")
    public Call<Movie> getMovies(@Query("s") String batman,@Query("page") String s);
+
+   @GET("xml/simple.xml")
+   public Call<BreakFastMenu> getXml();
 
 }

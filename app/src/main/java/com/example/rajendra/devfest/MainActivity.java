@@ -14,7 +14,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.example.rajendra.devfest.adapter.FoodAdapter;
 import com.example.rajendra.devfest.adapter.MoviesAdapater;
+import com.example.rajendra.devfest.model.BreakFastMenu;
 import com.example.rajendra.devfest.model.Movie;
 import com.example.rajendra.devfest.rest.APInterface;
 import com.example.rajendra.devfest.rest.APiClient;
@@ -23,40 +25,41 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
-    public   @BindView  (R.id.mainactivity_movieList_rv) RecyclerView recyclerView_movieList;
-    private MoviesAdapater moviesAdapater;
-    private String Tag="MainActivity";
-
+    public
+    @BindView(R.id.mainactivity_foodList_rv)
+    RecyclerView recyclerView_foodList;
+    private FoodAdapter foodAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        recyclerView_movieList.setLayoutManager(new LinearLayoutManager(this));
-        APInterface apiService =
-                APiClient.getClient().create(APInterface.class);
-      Call<Movie> movieCall =apiService.getMovies("Batman","2");
-        movieCall.enqueue(new retrofit2.Callback<Movie>() {
+        recyclerView_foodList.setLayoutManager(new LinearLayoutManager(this));
+
+        APInterface apiInterface = APiClient.getClient(false).create(APInterface.class);
+        Call<BreakFastMenu> breakFastMenuCall = apiInterface.getXml();
+        breakFastMenuCall.enqueue(new retrofit2.Callback<BreakFastMenu>() {
             @Override
-            public void onResponse(Call<Movie> call, Response<Movie> response) {
-                moviesAdapater = new MoviesAdapater(response.body().getSearch(),MainActivity.this);
-                recyclerView_movieList.setAdapter(moviesAdapater);
+            public void onResponse(Call<BreakFastMenu> call, Response<BreakFastMenu> response) {
+                foodAdapter = new FoodAdapter(response.body().getFoodList(), MainActivity.this);
+                recyclerView_foodList.setAdapter(foodAdapter);
             }
 
             @Override
-            public void onFailure(Call<Movie> call, Throwable t) {
-                Log.e(Tag, "On Failure "+t);
+            public void onFailure(Call<BreakFastMenu> call, Throwable t) {
+
             }
         });
 
 
-
     }
+
 
 }
