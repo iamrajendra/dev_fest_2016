@@ -12,6 +12,9 @@ import com.example.rajendra.devfest.R;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by rajendra on 13/11/16.
  */
@@ -46,15 +49,19 @@ public class MoviesAdapater extends RecyclerView.Adapter<MoviesAdapater.MoviesAd
     }
 
     public class MoviesAdapter extends RecyclerView.ViewHolder {
-        private TextView textView_title;
-        private TextView textView_year;
-        private TextView textView_type;
+        public
+        @BindView(R.id.movie_adapter_title)
+        TextView textView_title;
+        public
+        @BindView(R.id.movie_adapter_year)
+        TextView textView_year;
+        public
+        @BindView(R.id.movie_adapter_type)
+        TextView textView_type;
 
         public MoviesAdapter(View itemView) {
             super(itemView);
-            textView_title = (TextView) itemView.findViewById(R.id.movie_adapter_title);
-            textView_year = (TextView) itemView.findViewById(R.id.movie_adapter_year);
-            textView_type = (TextView) itemView.findViewById(R.id.movie_adapter_type);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

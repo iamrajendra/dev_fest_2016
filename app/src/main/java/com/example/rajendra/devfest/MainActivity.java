@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,20 +21,23 @@ import com.example.rajendra.devfest.rest.APiClient;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
-    private RecyclerView recyclerView_movieList;
+    public   @BindView  (R.id.mainactivity_movieList_rv) RecyclerView recyclerView_movieList;
     private MoviesAdapater moviesAdapater;
+    private String Tag="MainActivity";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        recyclerView_movieList = (RecyclerView)findViewById(R.id.mainactivity_movieList_rv);
+        ButterKnife.bind(this);
         recyclerView_movieList.setLayoutManager(new LinearLayoutManager(this));
         APInterface apiService =
                 APiClient.getClient().create(APInterface.class);
@@ -47,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Movie> call, Throwable t) {
-
+                Log.e(Tag, "On Failure "+t);
             }
         });
 
